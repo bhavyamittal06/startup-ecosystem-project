@@ -3,681 +3,1097 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Platform Architecture — Startup Ecosystem</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>VentureX — Startup Investment Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0f1f3d;
-    --navy2: #162848;
-    --blue: #1a4a8a;
-    --accent: #f0a500;
-    --accent2: #e07b00;
-    --teal: #0d9488;
-    --green: #16a34a;
-    --purple: #7c3aed;
-    --coral: #e11d48;
-    --gray: #64748b;
-    --light: #f1f5f9;
-    --white: #ffffff;
-    --border: rgba(255,255,255,0.08);
-    --card: rgba(255,255,255,0.04);
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;
+  --bg2:#f7f7f8;
+  --bg3:#f0f0f2;
+  --ink:#0a0a0a;
+  --ink2:#1a1a1a;
+  --muted:#6b6b80;
+  --muted2:#9999aa;
+  --border:#e4e4eb;
+  --border2:#d0d0db;
+  --accent:#0a66c2;
+  --accent2:#0855a8;
+  --green:#16a34a;
+  --tag-bg:#f0f4ff;
+  --tag-color:#0a66c2;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  padding:0 48px;
+  height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-left{display:flex;align-items:center;gap:40px}
+.nav-logo{
+  font-size:18px;font-weight:800;color:var(--ink);
+  letter-spacing:-0.5px;text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+}
+.nav-logo-mark{
+  width:28px;height:28px;background:var(--ink);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;font-weight:800;
+}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{
+  font-size:14px;font-weight:500;color:var(--muted);
+  text-decoration:none;padding:6px 12px;border-radius:6px;
+  transition:all .15s;
+}
+.nav-links a:hover{color:var(--ink);background:var(--bg2)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-outline{
+  font-size:14px;font-weight:600;color:var(--ink);
+  border:1px solid var(--border2);background:#fff;
+  padding:8px 16px;border-radius:8px;text-decoration:none;
+  transition:all .15s;cursor:pointer;
+}
+.btn-outline:hover{border-color:var(--ink);background:var(--bg2)}
+.btn-solid{
+  font-size:14px;font-weight:600;color:#fff;
+  background:var(--ink);border:1px solid var(--ink);
+  padding:8px 16px;border-radius:8px;text-decoration:none;
+  transition:all .15s;cursor:pointer;
+}
+.btn-solid:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--navy);
-    color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* HERO */
+.hero{
+  padding:80px 48px 72px;
+  border-bottom:1px solid var(--border);
+  max-width:1200px;margin:0 auto;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 420px;
+  gap:80px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;color:var(--accent);
+  background:var(--tag-bg);
+  padding:4px 12px;border-radius:20px;
+  margin-bottom:24px;letter-spacing:.3px;
+  border:1px solid rgba(10,102,194,0.15);
+}
+.hero-eyebrow-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-size:clamp(36px,4.5vw,56px);font-weight:800;
+  color:var(--ink);line-height:1.1;letter-spacing:-2px;
+  margin-bottom:20px;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{
+  font-size:17px;font-weight:400;color:var(--muted);
+  line-height:1.7;max-width:480px;margin-bottom:36px;
+}
+.hero-actions{display:flex;align-items:center;gap:12px;margin-bottom:48px}
+.hero-btn-main{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:600;color:#fff;
+  background:var(--ink);border-radius:8px;
+  padding:12px 24px;text-decoration:none;
+  transition:all .2s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.12);
+}
+.hero-btn-main:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.18)}
+.hero-btn-sec{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:600;color:var(--ink);
+  background:#fff;border:1px solid var(--border2);
+  border-radius:8px;padding:12px 24px;text-decoration:none;
+  transition:all .2s;
+}
+.hero-btn-sec:hover{border-color:var(--ink);background:var(--bg2)}
+.hero-trust{
+  display:flex;align-items:center;gap:24px;
+  padding-top:24px;border-top:1px solid var(--border);
+}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--muted);font-weight:500;
+}
+.trust-icon{color:var(--green);font-size:15px}
 
-  /* subtle grid bg */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none; z-index: 0;
-  }
+/* HERO CARD */
+.hero-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,0.08),0 1px 3px rgba(0,0,0,0.06);
+  opacity:0;transform:translateY(20px);
+  animation:cardIn .7s .3s forwards;
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+.hcard-header{
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg2);
+}
+.hcard-title{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.hcard-live{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:600;color:var(--green);
+  font-family:'IBM Plex Mono',monospace;
+}
+.hcard-live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.5s infinite}
+.hcard-body{padding:20px}
+.hcard-metric{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid var(--border);
+}
+.hcard-metric:last-child{border-bottom:none;padding-bottom:0}
+.hcard-metric-label{font-size:13px;color:var(--muted);font-weight:400}
+.hcard-metric-val{
+  font-size:18px;font-weight:700;color:var(--ink);
+  font-family:'IBM Plex Mono',monospace;
+}
+.hcard-metric-val.blue{color:var(--accent)}
+.hcard-metric-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;
+}
+.badge-green{background:#dcfce7;color:#16a34a}
+.badge-blue{background:#dbeafe;color:#1d4ed8}
+.badge-orange{background:#fff7ed;color:#ea580c}
+.hcard-footer{
+  margin:16px 20px 20px;padding:14px 16px;
+  background:var(--bg2);border-radius:10px;
+  border:1px solid var(--border);
+}
+.hcard-footer-row{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;
+}
+.hcard-footer-label{color:var(--muted)}
+.hcard-footer-val{font-weight:600;color:var(--ink)}
 
-  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+/* LOGOS / SOCIAL PROOF */
+.logos-bar{
+  border-bottom:1px solid var(--border);
+  padding:32px 48px;
+  background:var(--bg2);
+}
+.logos-inner{max-width:1200px;margin:0 auto}
+.logos-label{
+  font-size:12px;font-weight:500;color:var(--muted2);
+  text-transform:uppercase;letter-spacing:1px;
+  text-align:center;margin-bottom:24px;
+}
+.logos-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:48px;flex-wrap:wrap;
+}
+.logo-item{
+  font-size:15px;font-weight:700;color:var(--muted2);
+  letter-spacing:-0.3px;transition:color .2s;
+}
+.logo-item:hover{color:var(--ink)}
 
-  /* HEADER */
-  .header { text-align: center; margin-bottom: 64px; }
-  .header-tag {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--accent); border: 1px solid var(--accent);
-    padding: 4px 14px; border-radius: 2px; margin-bottom: 20px;
-  }
-  .header h1 {
-    font-size: clamp(28px, 5vw, 52px); font-weight: 600; line-height: 1.1;
-    letter-spacing: -1px; margin-bottom: 14px;
-  }
-  .header h1 span { color: var(--accent); }
-  .header p { color: rgba(255,255,255,0.5); font-size: 16px; max-width: 520px; margin: 0 auto; }
+/* STATS */
+.stats{
+  border-bottom:1px solid var(--border);
+  padding:0;
+}
+.stats-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat-item{
+  padding:40px 48px;
+  border-right:1px solid var(--border);
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-size:40px;font-weight:800;color:var(--ink);
+  letter-spacing:-1.5px;line-height:1;margin-bottom:6px;
+  font-family:'IBM Plex Mono',monospace;
+}
+.stat-num span{color:var(--accent)}
+.stat-label{font-size:14px;color:var(--muted);font-weight:400}
+.stat-change{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:600;color:var(--green);
+  margin-top:8px;
+}
 
-  /* TABS */
-  .tabs {
-    display: flex; gap: 4px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 10px; padding: 4px;
-    width: fit-content; margin: 0 auto 52px;
-  }
-  .tab {
-    padding: 10px 28px; border-radius: 7px; border: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
-    transition: all .22s; background: transparent; color: rgba(255,255,255,0.45);
-  }
-  .tab.active {
-    background: var(--accent); color: var(--navy);
-    box-shadow: 0 2px 12px rgba(240,165,0,0.35);
-  }
-  .tab:hover:not(.active) { color: white; background: rgba(255,255,255,0.06); }
+/* SECTION */
+.section{padding:80px 48px;border-bottom:1px solid var(--border)}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-header{margin-bottom:48px}
+.section-label{
+  font-size:12px;font-weight:600;color:var(--accent);
+  text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+}
+.section-title{
+  font-size:clamp(28px,3vw,40px);font-weight:800;
+  color:var(--ink);letter-spacing:-1.5px;line-height:1.1;
+  margin-bottom:12px;
+}
+.section-sub{font-size:16px;color:var(--muted);line-height:1.6;max-width:520px}
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+/* FEATURES GRID */
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;
+}
+.feat{
+  background:#fff;padding:32px 28px;
+  transition:background .2s;
+  opacity:0;transform:translateY(16px);
+  transition:all .5s;
+}
+.feat.visible{opacity:1;transform:translateY(0)}
+.feat:hover{background:var(--bg2)}
+.feat-icon{
+  width:40px;height:40px;border-radius:8px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:20px;
+}
+.feat-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px;letter-spacing:-0.3px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.6}
+.feat-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:13px;font-weight:600;color:var(--accent);
+  text-decoration:none;margin-top:14px;
+  transition:gap .2s;
+}
+.feat-link:hover{gap:8px}
 
-  /* ─── PANEL 1: SYSTEM LAYERS ─── */
+/* STARTUP CARDS (AngelList style) */
+.startup-list{display:flex;flex-direction:column;gap:0}
+.startup-card{
+  display:flex;align-items:center;
+  padding:20px 0;border-bottom:1px solid var(--border);
+  gap:16px;transition:background .15s;
+  cursor:pointer;
+  opacity:0;transform:translateX(-10px);transition:all .4s;
+}
+.startup-card.visible{opacity:1;transform:translateX(0)}
+.startup-card:hover .startup-name{color:var(--accent)}
+.startup-logo{
+  width:48px;height:48px;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;font-weight:700;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:14px;color:var(--muted);
+}
+.startup-info{flex:1}
+.startup-name-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.startup-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;transition:color .15s}
+.startup-verified{
+  width:16px;height:16px;background:var(--accent);
+  border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:9px;
+}
+.startup-tags{display:flex;gap:6px;flex-wrap:wrap}
+.startup-tag{
+  font-size:11px;font-weight:500;color:var(--muted);
+  background:var(--bg2);border:1px solid var(--border);
+  padding:2px 8px;border-radius:20px;
+}
+.startup-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-top:4px}
+.startup-meta{
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;
+}
+.startup-raise{font-size:14px;font-weight:700;color:var(--ink);font-family:'IBM Plex Mono',monospace}
+.startup-stage{
+  font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;
+}
+.stage-seed{background:#fef9c3;color:#854d0e}
+.stage-pre{background:#f0fdf4;color:#166534}
+.stage-series{background:#eff6ff;color:#1e40af}
+.startup-cta{
+  font-size:13px;font-weight:600;color:var(--accent);
+  text-decoration:none;padding:6px 14px;
+  border:1px solid rgba(10,102,194,0.25);
+  border-radius:6px;background:var(--tag-bg);
+  transition:all .15s;white-space:nowrap;
+}
+.startup-cta:hover{background:var(--accent);color:#fff}
 
-  .layers-wrap { display: flex; flex-direction: column; gap: 0; position: relative; }
+/* EVENTS */
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.event-card{
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  transition:all .2s;background:#fff;
+  opacity:0;transform:translateY(16px);transition:all .5s;
+}
+.event-card.visible{opacity:1;transform:translateY(0)}
+.event-card:hover{border-color:var(--border2);box-shadow:0 8px 32px rgba(0,0,0,0.08);transform:translateY(-2px)}
+.event-top{
+  padding:20px;border-bottom:1px solid var(--border);
+  background:var(--bg2);
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.event-badge{
+  font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;
+}
+.badge-corp{background:#eff6ff;color:#1d4ed8}
+.badge-uni{background:#f5f3ff;color:#6d28d9}
+.badge-school{background:#f0fdf4;color:#15803d}
+.event-date{font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+.event-body{padding:20px}
+.event-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;margin-bottom:6px}
+.event-loc{
+  font-size:13px;color:var(--muted);
+  display:flex;align-items:center;gap:5px;margin-bottom:16px;
+}
+.event-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:14px;border-top:1px solid var(--border);
+}
+.event-spots{font-size:12px;color:var(--muted)}
+.event-spots b{color:var(--ink)}
+.event-reg{
+  font-size:13px;font-weight:600;color:var(--accent);
+  text-decoration:none;padding:6px 14px;
+  border:1px solid rgba(10,102,194,0.2);border-radius:6px;
+  background:var(--tag-bg);transition:all .15s;
+}
+.event-reg:hover{background:var(--accent);color:#fff}
 
-  .layer {
-    border: 1px solid var(--border);
-    border-radius: 14px; padding: 28px 32px;
-    background: var(--card);
-    margin-bottom: 4px;
-    transition: all .25s;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .layer::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; border-radius: 14px 0 0 14px;
-  }
-  .layer-users::before    { background: var(--accent); }
-  .layer-frontend::before { background: var(--teal); }
-  .layer-modules::before  { background: var(--purple); }
-  .layer-backend::before  { background: var(--blue); }
-  .layer-db::before       { background: var(--green); }
-  .layer-external::before { background: var(--coral); }
+/* ROLES SECTION */
+.roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.role-card{
+  border:1px solid var(--border);border-radius:12px;padding:24px;
+  background:#fff;transition:all .2s;
+  opacity:0;transform:translateY(16px);transition:all .5s;
+}
+.role-card.visible{opacity:1;transform:translateY(0)}
+.role-card:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.role-icon{font-size:24px;margin-bottom:14px;display:block}
+.role-name{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-0.3px}
+.role-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.role-perms{display:flex;flex-direction:column;gap:5px}
+.role-perm{
+  font-size:12px;color:var(--muted);
+  display:flex;align-items:flex-start;gap:7px;line-height:1.4;
+}
+.role-perm::before{content:'→';color:var(--accent);flex-shrink:0;font-weight:700}
 
-  .layer:hover { border-color: rgba(255,255,255,0.18); transform: translateX(3px); }
+/* HOW IT WORKS */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;position:relative}
+.steps-grid::before{
+  content:'';position:absolute;top:24px;left:15%;right:15%;
+  height:1px;background:var(--border2);z-index:0;
+}
+.step{
+  position:relative;z-index:1;text-align:center;
+  opacity:0;transform:translateY(20px);transition:all .5s;
+}
+.step.visible{opacity:1;transform:translateY(0)}
+.step-num{
+  width:48px;height:48px;border-radius:50%;
+  background:#fff;border:2px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-size:15px;font-weight:800;color:var(--ink);
+  font-family:'IBM Plex Mono',monospace;
+  transition:all .2s;
+}
+.step:hover .step-num{background:var(--ink);color:#fff;border-color:var(--ink)}
+.step-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px;letter-spacing:-0.3px}
+.step-desc{font-size:14px;color:var(--muted);line-height:1.6}
 
-  .layer-header {
-    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
-  }
-  .layer-icon {
-    width: 42px; height: 42px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
-  .layer-users .layer-icon    { background: rgba(240,165,0,0.15); }
-  .layer-frontend .layer-icon { background: rgba(13,148,136,0.15); }
-  .layer-modules .layer-icon  { background: rgba(124,58,237,0.15); }
-  .layer-backend .layer-icon  { background: rgba(26,74,138,0.18); }
-  .layer-db .layer-icon       { background: rgba(22,163,74,0.15); }
-  .layer-external .layer-icon { background: rgba(225,29,72,0.15); }
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testi{
+  border:1px solid var(--border);border-radius:12px;padding:24px;
+  background:#fff;
+  opacity:0;transform:translateY(16px);transition:all .5s;
+}
+.testi.visible{opacity:1;transform:translateY(0)}
+.testi-text{
+  font-size:14px;color:var(--ink2);line-height:1.7;
+  margin-bottom:20px;font-style:italic;
+}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-av{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;
+}
+.testi-name{font-size:13px;font-weight:700;color:var(--ink)}
+.testi-role{font-size:12px;color:var(--muted)}
+.testi-stars{color:#f59e0b;font-size:12px;margin-bottom:12px;letter-spacing:2px}
 
-  .layer-title-group { flex: 1; }
-  .layer-title { font-size: 17px; font-weight: 600; margin-bottom: 3px; }
-  .layer-sub { font-size: 12px; color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; }
+/* CTA BAND */
+.cta-band{
+  background:var(--ink);padding:80px 48px;
+}
+.cta-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:48px;
+}
+.cta-title{
+  font-size:clamp(28px,3vw,44px);font-weight:800;
+  color:#fff;letter-spacing:-1.5px;line-height:1.1;
+}
+.cta-title span{color:#f5c842}
+.cta-sub{font-size:16px;color:rgba(255,255,255,0.55);margin-top:12px;line-height:1.6;max-width:420px}
+.cta-actions{display:flex;gap:12px;flex-shrink:0}
+.cta-btn-white{
+  font-size:15px;font-weight:700;color:var(--ink);
+  background:#fff;border-radius:8px;padding:14px 28px;
+  text-decoration:none;transition:all .2s;white-space:nowrap;
+}
+.cta-btn-white:hover{background:#f5f5f5;transform:translateY(-1px)}
+.cta-btn-ghost{
+  font-size:15px;font-weight:600;color:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.2);border-radius:8px;
+  padding:14px 28px;text-decoration:none;transition:all .2s;white-space:nowrap;
+}
+.cta-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.5)}
 
-  .layer-badge {
-    font-size: 11px; padding: 3px 10px; border-radius: 20px;
-    font-weight: 600; letter-spacing: .5px;
-  }
-  .layer-users .layer-badge    { background: rgba(240,165,0,0.15); color: var(--accent); }
-  .layer-frontend .layer-badge { background: rgba(13,148,136,0.15); color: #2dd4bf; }
-  .layer-modules .layer-badge  { background: rgba(124,58,237,0.15); color: #a78bfa; }
-  .layer-backend .layer-badge  { background: rgba(26,74,138,0.25); color: #93c5fd; }
-  .layer-db .layer-badge       { background: rgba(22,163,74,0.15); color: #4ade80; }
-  .layer-external .layer-badge { background: rgba(225,29,72,0.15); color: #fb7185; }
+/* FOOTER */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:60px 48px 40px;
+}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{
+  display:grid;grid-template-columns:280px 1fr;
+  gap:80px;margin-bottom:48px;
+  padding-bottom:48px;border-bottom:1px solid var(--border);
+}
+.footer-brand{}
+.footer-logo{
+  font-size:18px;font-weight:800;color:var(--ink);
+  margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+.footer-logo-mark{
+  width:26px;height:26px;background:var(--ink);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:12px;font-weight:800;
+}
+.footer-tagline{font-size:13px;color:var(--muted);line-height:1.6;max-width:220px}
+.footer-links{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+}
+.footer-col-title{
+  font-size:12px;font-weight:700;color:var(--ink);
+  text-transform:uppercase;letter-spacing:.8px;
+  margin-bottom:14px;
+}
+.footer-col a{
+  display:block;font-size:13px;color:var(--muted);
+  text-decoration:none;margin-bottom:10px;transition:color .15s;
+}
+.footer-col a:hover{color:var(--ink)}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-copy{font-size:12px;color:var(--muted2)}
+.footer-badge{
+  font-size:11px;font-weight:600;color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  background:#fff;border:1px solid var(--border);
+  padding:4px 12px;border-radius:20px;
+}
 
-  .layer-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    padding: 6px 13px; border-radius: 7px; font-size: 13px; font-weight: 400;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.7);
-    transition: all .2s; cursor: default;
-  }
-  .chip:hover { background: rgba(255,255,255,0.09); color: white; border-color: rgba(255,255,255,0.18); }
+/* REVEAL ANIM */
+.reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* arrows between layers */
-  .layer-arrow {
-    text-align: center; padding: 6px 0; color: rgba(255,255,255,0.2);
-    font-size: 20px; line-height: 1; user-select: none;
-  }
-
-  /* flow legend */
-  .flow-legend {
-    display: flex; gap: 24px; flex-wrap: wrap;
-    margin-top: 32px; padding: 18px 24px;
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-    border-radius: 10px;
-  }
-  .flow-legend-title {
-    font-size: 11px; font-family: 'Space Mono', monospace;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); width: 100%; margin-bottom: 4px;
-  }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.55); }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-
-  /* ─── PANEL 2: USER ROLES ─── */
-
-  .roles-intro {
-    text-align: center; margin-bottom: 40px;
-    color: rgba(255,255,255,0.45); font-size: 15px;
-  }
-
-  .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-
-  .role-card {
-    border: 1px solid var(--border); border-radius: 16px;
-    padding: 28px; background: var(--card);
-    transition: all .25s; cursor: pointer; position: relative; overflow: hidden;
-  }
-  .role-card::after {
-    content: ''; position: absolute; top: 0; right: 0;
-    width: 80px; height: 80px; border-radius: 0 16px 0 80px;
-    opacity: .06; transition: opacity .3s;
-  }
-  .role-card:hover::after { opacity: .12; }
-  .role-startup::after   { background: var(--accent); }
-  .role-investor::after  { background: var(--green); }
-  .role-mentor::after    { background: var(--teal); }
-  .role-jury::after      { background: var(--purple); }
-  .role-eventmgr::after  { background: var(--coral); }
-  .role-admin::after     { background: #0ea5e9; }
-
-  .role-card:hover {
-    border-color: rgba(255,255,255,0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-  }
-
-  .role-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
-  .role-avatar {
-    width: 48px; height: 48px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
-  }
-  .role-startup .role-avatar  { background: rgba(240,165,0,0.15); }
-  .role-investor .role-avatar { background: rgba(22,163,74,0.15); }
-  .role-mentor .role-avatar   { background: rgba(13,148,136,0.15); }
-  .role-jury .role-avatar     { background: rgba(124,58,237,0.15); }
-  .role-eventmgr .role-avatar { background: rgba(225,29,72,0.15); }
-  .role-admin .role-avatar    { background: rgba(14,165,233,0.15); }
-
-  .role-name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-  .role-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; }
-
-  .role-access {
-    display: inline-block; font-size: 11px; font-weight: 600;
-    padding: 2px 10px; border-radius: 20px; margin-bottom: 16px;
-    font-family: 'Space Mono', monospace; letter-spacing: .5px;
-  }
-  .role-startup .role-access  { background: rgba(240,165,0,0.12); color: var(--accent); }
-  .role-investor .role-access { background: rgba(22,163,74,0.12); color: #4ade80; }
-  .role-mentor .role-access   { background: rgba(13,148,136,0.12); color: #2dd4bf; }
-  .role-jury .role-access     { background: rgba(124,58,237,0.12); color: #a78bfa; }
-  .role-eventmgr .role-access { background: rgba(225,29,72,0.12); color: #fb7185; }
-  .role-admin .role-access    { background: rgba(14,165,233,0.12); color: #38bdf8; }
-
-  .role-perms { display: flex; flex-direction: column; gap: 8px; }
-  .perm {
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.4;
-  }
-  .perm-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    flex-shrink: 0; margin-top: 5px;
-  }
-  .role-startup .perm-dot  { background: var(--accent); }
-  .role-investor .perm-dot { background: #4ade80; }
-  .role-mentor .perm-dot   { background: #2dd4bf; }
-  .role-jury .perm-dot     { background: #a78bfa; }
-  .role-eventmgr .perm-dot { background: #fb7185; }
-  .role-admin .perm-dot    { background: #38bdf8; }
-
-  .role-divider {
-    height: 1px; background: var(--border); margin: 16px 0;
-  }
-  .role-cant {
-    font-size: 12px; color: rgba(255,255,255,0.25); font-style: italic;
-  }
-  .role-cant span { color: rgba(255,100,100,0.5); margin-right: 5px; }
-
-  /* access matrix */
-  .matrix-section { margin-top: 52px; }
-  .matrix-title {
-    font-size: 13px; font-family: 'Space Mono', monospace;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); margin-bottom: 20px; text-align: center;
-  }
-  .matrix-wrap { overflow-x: auto; }
-  .matrix {
-    width: 100%; border-collapse: collapse; font-size: 13px;
-    min-width: 600px;
-  }
-  .matrix th {
-    padding: 10px 14px; text-align: center; font-weight: 500;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border); font-size: 12px;
-    color: rgba(255,255,255,0.5);
-  }
-  .matrix th:first-child { text-align: left; color: rgba(255,255,255,0.35); }
-  .matrix td {
-    padding: 10px 14px; border: 1px solid var(--border);
-    text-align: center; color: rgba(255,255,255,0.7); font-size: 13px;
-  }
-  .matrix td:first-child {
-    text-align: left; font-weight: 500; color: rgba(255,255,255,0.6);
-    background: rgba(255,255,255,0.02);
-  }
-  .matrix tr:hover td { background: rgba(255,255,255,0.03); }
-  .yes { color: #4ade80; font-weight: 600; }
-  .no  { color: rgba(255,255,255,0.15); }
-  .partial { color: var(--accent); }
-
-  /* footer note */
-  .footnote {
-    text-align: center; margin-top: 52px;
-    font-size: 12px; color: rgba(255,255,255,0.2);
-    font-family: 'Space Mono', monospace;
-  }
-
-  @media (max-width: 600px) {
-    .layer { padding: 20px 18px; }
-    .tabs { flex-direction: column; width: 100%; }
-    .tab { text-align: center; }
-    .roles-grid { grid-template-columns: 1fr; }
-  }
+@media(max-width:768px){
+  nav,footer,.section,.hero,.logos-bar{padding-left:20px;padding-right:20px}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-item{padding:24px 20px}
+  .features-grid,.roles-grid,.events-grid,.testi-grid,.steps-grid{grid-template-columns:1fr}
+  .steps-grid::before{display:none}
+  .cta-inner{flex-direction:column}
+  .cta-actions{flex-direction:column;width:100%}
+  .footer-top{grid-template-columns:1fr}
+  .footer-links{grid-template-columns:repeat(2,1fr)}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-tag">Architecture Breakdown</div>
-    <h1>Startup Ecosystem <span>Platform</span></h1>
-    <p>Visual breakdown of the system layers and user roles — built for your internship research.</p>
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">V</div>
+      VentureX
+    </a>
+    <div class="nav-links">
+      <a href="#features">Platform</a>
+      <a href="#startups">Startups</a>
+      <a href="#events">Events</a>
+      <a href="#roles">For Who</a>
+    </div>
   </div>
-
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('layers', this)">🏗 System Layers</button>
-    <button class="tab" onclick="switchTab('roles', this)">👥 User Roles</button>
+  <div class="nav-right">
+    <a href="#" class="btn-outline">Log in</a>
+    <a href="#" class="btn-solid">Get started →</a>
   </div>
+</nav>
 
-  <!-- ══════════════════════════════════════════════ -->
-  <!--  PANEL 1 — SYSTEM LAYERS                      -->
-  <!-- ══════════════════════════════════════════════ -->
-  <div class="panel active" id="panel-layers">
-    <div class="layers-wrap">
-
-      <!-- LAYER 1: USERS -->
-      <div class="layer layer-users">
-        <div class="layer-header">
-          <div class="layer-icon">👤</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 1 — Users (Who accesses the platform)</div>
-            <div class="layer-sub">ENTRY POINT · BROWSER / MOBILE</div>
-          </div>
-          <div class="layer-badge">Public Layer</div>
+<!-- HERO -->
+<div style="border-bottom:1px solid var(--border)">
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+        <div class="">
+          <div class=""></div>
+          
         </div>
-        <div class="layer-chips">
-          <div class="chip">🚀 Startup Founders</div>
-          <div class="chip">💰 Investors</div>
-          <div class="chip">🧠 Mentors</div>
-          <div class="chip">⚖️ Jury Members</div>
-          <div class="chip">📅 Event Managers</div>
-          <div class="chip">🛡 Admins</div>
+      <h1>Where startups meet<br><em>the right investors.</em></h1>
+      <p class="hero-sub">A unified platform managing the complete startup investment lifecycle — pitch submissions, jury evaluations, mentorship, and Shark Tank-style events across India.</p>
+      <div class="hero-actions">
+        <a href="#" class="hero-btn-main">Apply as a Startup →</a>
+        <a href="#" class="hero-btn-sec">Browse Investors</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="trust-icon">✓</span> Free to join</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Verified investors only</div>
+        <div class="trust-item"><span class="trust-icon">✓</span> Events in 20+ cities</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hcard-header">
+        <span class="hcard-title">Platform Overview</span>
+        <span class="hcard-live"><div class="hcard-live-dot"></div>Live</span>
+      </div>
+      <div class="hcard-body">
+        <div class="hcard-metric">
+          <span class="hcard-metric-label">Startups funded</span>
+          <span class="hcard-metric-val blue">300+</span>
+        </div>
+        <div class="hcard-metric">
+          <span class="hcard-metric-label">Capital deployed</span>
+          <span class="hcard-metric-val">₹48Cr+</span>
+        </div>
+        <div class="hcard-metric">
+          <span class="hcard-metric-label">Active investors</span>
+          <span class="hcard-metric-val">180+</span>
+        </div>
+        <div class="hcard-metric">
+          <span class="hcard-metric-label">Events this month</span>
+          <span class="hcard-metric-badge badge-green">6 upcoming</span>
+        </div>
+        <div class="hcard-metric">
+          <span class="hcard-metric-label">Open pitches</span>
+          <span class="hcard-metric-badge badge-blue">24 active</span>
         </div>
       </div>
-
-      <div class="layer-arrow">↕</div>
-
-      <!-- LAYER 2: FRONTEND -->
-      <div class="layer layer-frontend">
-        <div class="layer-header">
-          <div class="layer-icon">🖥</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 2 — Frontend (What users see & interact with)</div>
-            <div class="layer-sub">HTML · CSS · JS / REACT · TAILWIND CSS</div>
-          </div>
-          <div class="layer-badge">UI Layer</div>
-        </div>
-        <div class="layer-chips">
-          <div class="chip">🏠 Landing Page</div>
-          <div class="chip">📋 Startup Dashboard</div>
-          <div class="chip">📊 Investor Dashboard</div>
-          <div class="chip">🎤 Pitch Portal</div>
-          <div class="chip">📅 Events Module</div>
-          <div class="chip">📈 Analytics Dashboard</div>
-          <div class="chip">🧑‍🏫 Mentor Directory</div>
-          <div class="chip">🔐 Login / Register</div>
-          <div class="chip">⚙️ Admin Panel</div>
-        </div>
-      </div>
-
-      <div class="layer-arrow">↕</div>
-
-      <!-- LAYER 3: CORE MODULES -->
-      <div class="layer layer-modules">
-        <div class="layer-header">
-          <div class="layer-icon">🧩</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 3 — Core Modules (Business logic & features)</div>
-            <div class="layer-sub">PLATFORM INTELLIGENCE · FEATURE ENGINE</div>
-          </div>
-          <div class="layer-badge">Logic Layer</div>
-        </div>
-        <div class="layer-chips">
-          <div class="chip">🧾 Startup Registration</div>
-          <div class="chip">💼 Investor Profiles</div>
-          <div class="chip">📄 Pitch Submission</div>
-          <div class="chip">🏆 Pitch Evaluation</div>
-          <div class="chip">💸 Funding Records</div>
-          <div class="chip">📆 Event Management</div>
-          <div class="chip">🤝 Mentorship Program</div>
-          <div class="chip">📣 Notifications</div>
-          <div class="chip">📊 Analytics Engine</div>
-          <div class="chip">👮 Role-Based Access</div>
-        </div>
-      </div>
-
-      <div class="layer-arrow">↕</div>
-
-      <!-- LAYER 4: BACKEND / API -->
-      <div class="layer layer-backend">
-        <div class="layer-header">
-          <div class="layer-icon">⚙️</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 4 — Backend / API (Server & data processing)</div>
-            <div class="layer-sub">NODE.JS · EXPRESS · REST API · JWT AUTH</div>
-          </div>
-          <div class="layer-badge">Server Layer</div>
-        </div>
-        <div class="layer-chips">
-          <div class="chip">🔑 Authentication & JWT</div>
-          <div class="chip">🔀 API Routes</div>
-          <div class="chip">📁 File Upload Handler</div>
-          <div class="chip">📧 Email Service</div>
-          <div class="chip">🔒 Role Guards</div>
-          <div class="chip">📦 Data Validation</div>
-          <div class="chip">🔔 Real-time Notifications</div>
-          <div class="chip">📊 Report Generator</div>
-        </div>
-      </div>
-
-      <div class="layer-arrow">↕</div>
-
-      <!-- LAYER 5: DATABASE -->
-      <div class="layer layer-db">
-        <div class="layer-header">
-          <div class="layer-icon">🗄</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 5 — Database (Where all data is stored)</div>
-            <div class="layer-sub">MONGODB · CLOUDINARY · REDIS CACHE</div>
-          </div>
-          <div class="layer-badge">Data Layer</div>
-        </div>
-        <div class="layer-chips">
-          <div class="chip">👤 Users Collection</div>
-          <div class="chip">🚀 Startups Collection</div>
-          <div class="chip">📄 Pitches Collection</div>
-          <div class="chip">💰 Investments Collection</div>
-          <div class="chip">📅 Events Collection</div>
-          <div class="chip">🤝 Mentorship Collection</div>
-          <div class="chip">🖼 Media (Cloudinary)</div>
-          <div class="chip">⚡ Cache (Redis)</div>
-        </div>
-      </div>
-
-      <div class="layer-arrow">↕</div>
-
-      <!-- LAYER 6: EXTERNAL -->
-      <div class="layer layer-external">
-        <div class="layer-header">
-          <div class="layer-icon">🌐</div>
-          <div class="layer-title-group">
-            <div class="layer-title">Layer 6 — External Services (Third-party integrations)</div>
-            <div class="layer-sub">THIRD-PARTY APIs · CLOUD · INTEGRATIONS</div>
-          </div>
-          <div class="layer-badge">External Layer</div>
-        </div>
-        <div class="layer-chips">
-          <div class="chip">📧 SendGrid (Emails)</div>
-          <div class="chip">🔐 Google OAuth</div>
-          <div class="chip">🖼 Cloudinary (Media)</div>
-          <div class="chip">💳 Razorpay (Payments)</div>
-          <div class="chip">🗺 Google Maps (Events)</div>
-          <div class="chip">📹 Zoom / Meet (Mentorship)</div>
-          <div class="chip">☁️ AWS / Vercel (Hosting)</div>
+      <div class="hcard-footer">
+        <div class="hcard-footer-row">
+          <span class="hcard-footer-label">Next event</span>
+          <span class="hcard-footer-val">June 14 · Bangalore</span>
         </div>
       </div>
     </div>
-
-    <!-- LEGEND -->
-    <div class="flow-legend">
-      <div class="flow-legend-title">How data flows through the platform</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>User opens browser → hits Frontend</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>Frontend sends API request → Backend processes it</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Backend applies business logic via Core Modules</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Backend reads/writes from Database</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--coral)"></div>Backend calls External Services when needed</div>
-    </div>
   </div>
-
-  <!-- ══════════════════════════════════════════════ -->
-  <!--  PANEL 2 — USER ROLES                         -->
-  <!-- ══════════════════════════════════════════════ -->
-  <div class="panel" id="panel-roles">
-    <div class="roles-intro">
-      The platform has <strong style="color:white">6 distinct user roles</strong>, each with different access levels, dashboards, and permissions.
-    </div>
-
-    <div class="roles-grid">
-
-      <!-- STARTUP -->
-      <div class="role-card role-startup">
-        <div class="role-top">
-          <div class="role-avatar">🚀</div>
-          <div>
-            <div class="role-name">Startup Founder</div>
-            <div class="role-desc">The core user — applies for funding and pitches ideas</div>
-          </div>
-        </div>
-        <div class="role-access">LIMITED ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Register startup & build public profile</div>
-          <div class="perm"><div class="perm-dot"></div>Submit pitch deck for evaluation</div>
-          <div class="perm"><div class="perm-dot"></div>Track pitch status & investor interest</div>
-          <div class="perm"><div class="perm-dot"></div>View funding history & received investments</div>
-          <div class="perm"><div class="perm-dot"></div>Book mentorship sessions</div>
-          <div class="perm"><div class="perm-dot"></div>Register for pitching events</div>
-          <div class="perm"><div class="perm-dot"></div>View own analytics (views, pitch scores)</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span>✗</span>Cannot see other startups' private data or investor details</div>
-      </div>
-
-      <!-- INVESTOR -->
-      <div class="role-card role-investor">
-        <div class="role-top">
-          <div class="role-avatar">💰</div>
-          <div>
-            <div class="role-name">Investor</div>
-            <div class="role-desc">Reviews startups and manages their investment portfolio</div>
-          </div>
-        </div>
-        <div class="role-access">ELEVATED ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Browse all startup profiles & pitch decks</div>
-          <div class="perm"><div class="perm-dot"></div>View full pitch submissions & financials</div>
-          <div class="perm"><div class="perm-dot"></div>Record investment interest & deal notes</div>
-          <div class="perm"><div class="perm-dot"></div>Track portfolio of funded startups</div>
-          <div class="perm"><div class="perm-dot"></div>Attend & evaluate at pitching events</div>
-          <div class="perm"><div class="perm-dot"></div>Message startups directly</div>
-          <div class="perm"><div class="perm-dot"></div>View investment analytics & ROI tracking</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span>✗</span>Cannot manage events or modify platform settings</div>
-      </div>
-
-      <!-- MENTOR -->
-      <div class="role-card role-mentor">
-        <div class="role-top">
-          <div class="role-avatar">🧠</div>
-          <div>
-            <div class="role-name">Mentor</div>
-            <div class="role-desc">Industry expert who guides startups through their journey</div>
-          </div>
-        </div>
-        <div class="role-access">STANDARD ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Create public mentor profile with expertise</div>
-          <div class="perm"><div class="perm-dot"></div>Accept or decline mentorship requests</div>
-          <div class="perm"><div class="perm-dot"></div>Schedule 1-on-1 sessions with startups</div>
-          <div class="perm"><div class="perm-dot"></div>Add notes & progress reports per startup</div>
-          <div class="perm"><div class="perm-dot"></div>View assigned startups' profiles & pitches</div>
-          <div class="perm"><div class="perm-dot"></div>Participate in events as a resource person</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span>✗</span>Cannot invest, score pitches, or manage events</div>
-      </div>
-
-      <!-- JURY -->
-      <div class="role-card role-jury">
-        <div class="role-top">
-          <div class="role-avatar">⚖️</div>
-          <div>
-            <div class="role-name">Jury Member</div>
-            <div class="role-desc">Evaluates startups at Shark Tank-style pitching events</div>
-          </div>
-        </div>
-        <div class="role-access">EVENT ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Access assigned event's pitch list</div>
-          <div class="perm"><div class="perm-dot"></div>View startup profiles & submitted decks</div>
-          <div class="perm"><div class="perm-dot"></div>Score pitches using evaluation rubric</div>
-          <div class="perm"><div class="perm-dot"></div>Add qualitative feedback per startup</div>
-          <div class="perm"><div class="perm-dot"></div>View live leaderboard during event</div>
-          <div class="perm"><div class="perm-dot"></div>Submit final verdict & recommendation</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span>✗</span>Cannot see other jury scores until event ends. Cannot invest.</div>
-      </div>
-
-      <!-- EVENT MANAGER -->
-      <div class="role-card role-eventmgr">
-        <div class="role-top">
-          <div class="role-avatar">📅</div>
-          <div>
-            <div class="role-name">Event Manager</div>
-            <div class="role-desc">Organises and manages all pitching events on the platform</div>
-          </div>
-        </div>
-        <div class="role-access">OPERATIONAL ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Create & publish pitching events</div>
-          <div class="perm"><div class="perm-dot"></div>Assign jury members to events</div>
-          <div class="perm"><div class="perm-dot"></div>Manage startup registrations per event</div>
-          <div class="perm"><div class="perm-dot"></div>Set pitch schedule & time slots</div>
-          <div class="perm"><div class="perm-dot"></div>Send bulk notifications to participants</div>
-          <div class="perm"><div class="perm-dot"></div>View live evaluation progress during event</div>
-          <div class="perm"><div class="perm-dot"></div>Export event summary & results report</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span>✗</span>Cannot modify user accounts or platform-wide settings</div>
-      </div>
-
-      <!-- ADMIN -->
-      <div class="role-card role-admin">
-        <div class="role-top">
-          <div class="role-avatar">🛡</div>
-          <div>
-            <div class="role-name">Admin</div>
-            <div class="role-desc">Full control over the entire platform and all users</div>
-          </div>
-        </div>
-        <div class="role-access">FULL ACCESS</div>
-        <div class="role-perms">
-          <div class="perm"><div class="perm-dot"></div>Create, edit, delete any user account</div>
-          <div class="perm"><div class="perm-dot"></div>Assign & change user roles</div>
-          <div class="perm"><div class="perm-dot"></div>Approve / reject startup registrations</div>
-          <div class="perm"><div class="perm-dot"></div>Manage all platform content & data</div>
-          <div class="perm"><div class="perm-dot"></div>View full analytics across all users</div>
-          <div class="perm"><div class="perm-dot"></div>Configure platform settings</div>
-          <div class="perm"><div class="perm-dot"></div>Export data & generate reports</div>
-        </div>
-        <div class="role-divider"></div>
-        <div class="role-cant"><span style="color:#38bdf8">★</span> Superuser — no restrictions on the platform</div>
-      </div>
-
-    </div>
-
-    <!-- ACCESS MATRIX -->
-    <div class="matrix-section">
-      <div class="matrix-title">Quick Access Matrix — Who can do what</div>
-      <div class="matrix-wrap">
-        <table class="matrix">
-          <thead>
-            <tr>
-              <th>Feature / Action</th>
-              <th>🚀 Startup</th>
-              <th>💰 Investor</th>
-              <th>🧠 Mentor</th>
-              <th>⚖️ Jury</th>
-              <th>📅 Event Mgr</th>
-              <th>🛡 Admin</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Register & create profile</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-            <tr><td>Submit pitch deck</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-            <tr><td>View all startup profiles</td><td class="no">—</td><td class="yes">✓</td><td class="partial">Own</td><td class="partial">Event</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-            <tr><td>Score / evaluate pitches</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr>
-            <tr><td>Record investments</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-            <tr><td>Create & manage events</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-            <tr><td>Book mentorship session</td><td class="yes">✓</td><td class="no">—</td><td class="partial">Accept</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-            <tr><td>View analytics dashboard</td><td class="partial">Own</td><td class="partial">Own</td><td class="no">—</td><td class="no">—</td><td class="partial">Events</td><td class="yes">✓</td></tr>
-            <tr><td>Manage user accounts</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-            <tr><td>Send platform notifications</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="partial">Events</td><td class="yes">✓</td></tr>
-            <tr><td>Export reports / data</td><td class="no">—</td><td class="partial">Own</td><td class="no">—</td><td class="no">—</td><td class="partial">Events</td><td class="yes">✓</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.25);text-align:center">
-        ✓ Full access &nbsp;·&nbsp; <span style="color:var(--accent)">Partial</span> = limited to own data/scope &nbsp;·&nbsp; — No access
-      </div>
-    </div>
-  </div>
-
-  <div class="footnote">
-    Startup Investment & Entrepreneurship Ecosystem Platform · Architecture Research · Internship 2026
-  </div>
-
+</div>
 </div>
 
+<!-- LOGOS -->
+<div class="logos-bar">
+  <div class="logos-inner">
+    <div class="logos-label">Trusted by startups from</div>
+    <div class="logos-row">
+      <div class="logo-item">IIT Bombay</div>
+      <div class="logo-item">IIM Ahmedabad</div>
+      <div class="logo-item">TechVentures</div>
+      <div class="logo-item">BITS Pilani</div>
+      <div class="logo-item">Y Combinator Alumni</div>
+      <div class="logo-item">Nasscom</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num"><span>300</span>+</div>
+      <div class="stat-label">Startups funded to date</div>
+      <div class="stat-change">↑ 42 this year</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">₹<span>48</span>Cr</div>
+      <div class="stat-label">Total capital deployed</div>
+      <div class="stat-change">↑ 18% YoY</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num"><span>120</span>+</div>
+      <div class="stat-label">Pitching events conducted</div>
+      <div class="stat-change">↑ 6 this month</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num"><span>20</span>+</div>
+      <div class="stat-label">Cities across India</div>
+      <div class="stat-change">↑ 4 new cities</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      
+      <h2 class="section-title">Everything the ecosystem needs.</h2>
+      <p class="section-sub">Six core modules that replace fragmented tools with one professional system for startups, investors, and institutions.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat">
+        
+        <div class="feat-title">Startup Registry</div>
+        <div class="feat-desc">Structured, verified profiles for every startup. Team, stage, industry, funding ask, and pitch deck — searchable by investors.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+      <div class="feat">
+        
+        <div class="feat-title">Pitch Portal</div>
+        <div class="feat-desc">Submit pitch decks, track evaluation status in real time, receive detailed jury feedback, and view your score breakdown.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+      <div class="feat">
+        
+        <div class="feat-title">Investment Tracking</div>
+        <div class="feat-desc">Investors manage their full portfolio — deal history, amounts, event context, and ROI analytics from a single dashboard.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+      <div class="feat">
+        
+        <div class="feat-title">Event Management</div>
+        <div class="feat-desc">Create Shark Tank-style events at corporates, universities, and schools. Scheduling, registrations, jury assignment — all here.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+      <div class="feat">
+        
+        <div class="feat-title">Mentorship Programs</div>
+        <div class="feat-desc">Structured mentorship with session booking, progress notes, and milestone tracking from verified industry experts.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+      <div class="feat">
+        
+        <div class="feat-title">Analytics Dashboard</div>
+        <div class="feat-desc">Role-aware dashboards for every user. KPI cards, investment charts, funnel analytics, and exportable PDF reports.</div>
+        <a href="#" class="feat-link">Explore →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STARTUPS LIST (AngelList style) -->
+<section class="section" id="startups" style="background:var(--bg2)">
+  <div class="section-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px">
+      <div class="reveal">
+       
+        <h2 class="section-title" style="margin-bottom:0">Recently funded startups.</h2>
+      </div>
+      <a href="#" style="font-size:14px;font-weight:600;color:var(--accent);text-decoration:none">View all 300+ →</a>
+    </div>
+    <div class="startup-list">
+      <div class="startup-card">
+        <div class="startup-logo">AG</div>
+        <div class="startup-info">
+          <div class="startup-name-row">
+            <span class="startup-name">AgriGrow Technologies</span>
+            <span class="startup-verified">✓</span>
+          </div>
+          <div class="startup-tags">
+            <span class="startup-tag">AgriTech</span>
+            <span class="startup-tag">B2B</span>
+            <span class="startup-tag">Pune</span>
+          </div>
+          <div class="startup-desc">AI-powered crop monitoring and precision farming platform for smallholder farmers across Maharashtra.</div>
+        </div>
+        <div class="startup-meta">
+          <div class="startup-raise">₹1.2Cr</div>
+          <span class="startup-stage stage-seed">Seed</span>
+          <a href="#" class="startup-cta">View profile</a>
+        </div>
+      </div>
+      <div class="startup-card">
+        <div class="startup-logo">EL</div>
+        <div class="startup-info">
+          <div class="startup-name-row">
+            <span class="startup-name">EduLeap</span>
+            <span class="startup-verified">✓</span>
+          </div>
+          <div class="startup-tags">
+            <span class="startup-tag">EdTech</span>
+            <span class="startup-tag">B2C</span>
+            <span class="startup-tag">Bangalore</span>
+          </div>
+          <div class="startup-desc">Personalised skill-based learning platform targeting Tier 2 and Tier 3 cities with vernacular content delivery.</div>
+        </div>
+        <div class="startup-meta">
+          <div class="startup-raise">₹85L</div>
+          <span class="startup-stage stage-pre">Pre-Seed</span>
+          <a href="#" class="startup-cta">View profile</a>
+        </div>
+      </div>
+      <div class="startup-card">
+        <div class="startup-logo">MH</div>
+        <div class="startup-info">
+          <div class="startup-name-row">
+            <span class="startup-name">MediHub</span>
+            <span class="startup-verified">✓</span>
+          </div>
+          <div class="startup-tags">
+            <span class="startup-tag">HealthTech</span>
+            <span class="startup-tag">SaaS</span>
+            <span class="startup-tag">Hyderabad</span>
+          </div>
+          <div class="startup-desc">Clinic management and patient record system built for India's 1M+ independent general practitioners and small clinics.</div>
+        </div>
+        <div class="startup-meta">
+          <div class="startup-raise">₹2.5Cr</div>
+          <span class="startup-stage stage-series">Series A</span>
+          <a href="#" class="startup-cta">View profile</a>
+        </div>
+      </div>
+      <div class="startup-card">
+        <div class="startup-logo">FP</div>
+        <div class="startup-info">
+          <div class="startup-name-row">
+            <span class="startup-name">FinPath</span>
+            <span class="startup-verified">✓</span>
+          </div>
+          <div class="startup-tags">
+            <span class="startup-tag">FinTech</span>
+            <span class="startup-tag">B2B2C</span>
+            <span class="startup-tag">Mumbai</span>
+          </div>
+          <div class="startup-desc">Embedded insurance and micro-lending platform for gig workers and informal sector employees across metro cities.</div>
+        </div>
+        <div class="startup-meta">
+          <div class="startup-raise">₹3.8Cr</div>
+          <span class="startup-stage stage-series">Series A</span>
+          <a href="#" class="startup-cta">View profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center">
+      
+      <h2 class="section-title">From idea to funded in 3 steps.</h2>
+      <p class="section-sub" style="margin:0 auto">A clear, structured journey for every stakeholder on the platform.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Register & Build Profile</div>
+        <div class="step-desc">Create your verified startup profile with team details, industry tags, stage, funding ask, and pitch deck upload.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Pitch at an Event</div>
+        <div class="step-desc">Browse upcoming events, register, submit your deck, and present to a structured panel of jury members and investors.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Get Funded & Mentored</div>
+        <div class="step-desc">Receive investment offers recorded on the platform and get matched with verified mentors for structured post-funding growth.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="section" id="events" style="background:var(--bg2)">
+  <div class="section-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px">
+      <div class="reveal">
+        
+        <h2 class="section-title" style="margin-bottom:0">Shark Tank-style. Nationwide.</h2>
+      </div>
+      <a href="#" style="font-size:14px;font-weight:600;color:var(--accent);text-decoration:none">View all events →</a>
+    </div>
+    <div class="events-grid">
+      <div class="event-card">
+        <div class="event-top">
+          <span class="event-badge badge-corp">Corporate</span>
+          <span class="event-date">Jun 14, 2026</span>
+        </div>
+        <div class="event-body">
+          <div class="event-title">InnovateTech Pitch Summit</div>
+          <div class="event-loc">📍 Bangalore, Karnataka</div>
+          <div class="event-footer">
+            <div class="event-spots"><b>12</b> spots left</div>
+            <a href="#" class="event-reg">Register →</a>
+          </div>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-top">
+          <span class="event-badge badge-uni">University</span>
+          <span class="event-date">Jun 21, 2026</span>
+        </div>
+        <div class="event-body">
+          <div class="event-title">IIT Bombay Startup Challenge</div>
+          <div class="event-loc"> Mumbai, Maharashtra</div>
+          <div class="event-footer">
+            <div class="event-spots"><b>8</b> spots left</div>
+            <a href="#" class="event-reg">Register →</a>
+          </div>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-top">
+          <span class="event-badge badge-school">School</span>
+          <span class="event-date">Jul 3, 2026</span>
+        </div>
+        <div class="event-body">
+          <div class="event-title">Young Founders Pitch Day</div>
+          <div class="event-loc">📍 Delhi, NCR</div>
+          <div class="event-footer">
+            <div class="event-spots"><b>20</b> spots left</div>
+            <a href="#" class="event-reg">Register →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="section" id="roles">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      
+      <h2 class="section-title">Built for every stakeholder.</h2>
+      <p class="section-sub">Six tailored dashboards — one platform for the entire ecosystem.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Startup Founder</div>
+        <div class="role-desc">Register, pitch, track funding, and connect with mentors.</div>
+        <div class="role-perms">
+          <div class="role-perm">Submit pitch decks to events</div>
+          <div class="role-perm">Track evaluation status live</div>
+          <div class="role-perm">Book mentorship sessions</div>
+          <div class="role-perm">View own analytics</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Investor</div>
+        <div class="role-desc">Discover startups, record deals, manage portfolio.</div>
+        <div class="role-perms">
+          <div class="role-perm">Browse all startup profiles</div>
+          <div class="role-perm">Record & track investments</div>
+          <div class="role-perm">Portfolio analytics dashboard</div>
+          <div class="role-perm">Message founders directly</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Mentor</div>
+        <div class="role-desc">Guide startups with structured session tracking.</div>
+        <div class="role-perms">
+          <div class="role-perm">Create verified mentor profile</div>
+          <div class="role-perm">Accept mentorship requests</div>
+          <div class="role-perm">Schedule & log sessions</div>
+          <div class="role-perm">Track startup progress</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Jury Member</div>
+        <div class="role-desc">Score pitches with structured rubrics at events.</div>
+        <div class="role-perms">
+          <div class="role-perm">Access assigned event pitches</div>
+          <div class="role-perm">Score with 5-criteria rubric</div>
+          <div class="role-perm">Submit qualitative feedback</div>
+          <div class="role-perm">View live leaderboard</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Event Manager</div>
+        <div class="role-desc">Create, manage, and run pitching events end-to-end.</div>
+        <div class="role-perms">
+          <div class="role-perm">Create & publish events</div>
+          <div class="role-perm">Assign jury & schedules</div>
+          <div class="role-perm">Monitor live scoring</div>
+          <div class="role-perm">Export event results</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <span class="role-icon"></span>
+        <div class="role-name">Admin</div>
+        <div class="role-desc">Full platform control — users, content, analytics.</div>
+        <div class="role-perms">
+          <div class="role-perm">Manage all users & roles</div>
+          <div class="role-perm">Approve startup registrations</div>
+          <div class="role-perm">Platform-wide analytics</div>
+          <div class="role-perm">Configure platform settings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:var(--bg2)">
+  <div class="section-inner">
+    <div class="section-header reveal" style="text-align:center">
+      <div class="section-label" style="display:flex;justify-content:center"> Testimonials</div>
+      <h2 class="section-title">Trusted by founders & investors.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The platform completely changed how we run our pitching events. What used to take three people a week now runs in a few hours."</div>
+        <div class="testi-author">
+          <div class="testi-av">RA</div>
+          <div>
+            <div class="testi-name">Rohan Agarwal</div>
+            <div class="testi-role">Event Manager · TechVentures India</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I tracked three of my portfolio investments through the platform. The analytics dashboard alone is worth it for any serious angel investor."</div>
+        <div class="testi-author">
+          <div class="testi-av">PS</div>
+          <div>
+            <div class="testi-name">Priya Shah</div>
+            <div class="testi-role">Angel Investor · Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"We pitched at a college event and got our first investor contact through the platform within two weeks. It's the real deal."</div>
+        <div class="testi-author">
+          <div class="testi-av">AK</div>
+          <div>
+            <div class="testi-name">Arjun Kumar</div>
+            <div class="testi-role">Co-founder · EduTech Startup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2 class="cta-title">Ready to find your<br><span>next investment?</span></h2>
+      <p class="cta-sub">Join 300+ startups, 180+ investors, and 120+ mentors already building India's next generation of companies.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="#" class="cta-btn-white">Apply as a Startup →</a>
+      <a href="#" class="cta-btn-ghost">I'm an Investor</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">V</div>
+          VentureX
+        </div>
+        <div class="footer-tagline">India's unified platform for startup investment, pitching events, and ecosystem growth.</div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <div class="footer-col-title">Platform</div>
+          <a href="#">Startup Registry</a>
+          <a href="#">Pitch Portal</a>
+          <a href="#">Events</a>
+          <a href="#">Mentorship</a>
+          <a href="#">Analytics</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">For You</div>
+          <a href="#">Founders</a>
+          <a href="#">Investors</a>
+          <a href="#">Mentors</a>
+          <a href="#">Jury Members</a>
+          <a href="#">Institutions</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Resources</div>
+          <a href="#">Documentation</a>
+          <a href="#">API</a>
+          <a href="#">Blog</a>
+          <a href="#">Community</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VentureX. All rights reserved.</div>
+      <div class="footer-badge">Built by Bhavya Mittal · Internship 2026</div>
+    </div>
+  </div>
+</footer>
+
 <script>
-  function switchTab(panel, btn) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('panel-' + panel).classList.add('active');
-  }
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.feat,.role-card,.event-card,.testi,.step,.startup-card').forEach((el,i) => {
+        setTimeout(()=>el.classList.add('visible'), i*80);
+      });
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.reveal,.features-grid,.roles-grid,.events-grid,.testi-grid,.steps-grid,.startup-list').forEach(el=>obs.observe(el));
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
 </script>
 </body>
 </html>
